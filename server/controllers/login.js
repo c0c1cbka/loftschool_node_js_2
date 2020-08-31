@@ -3,6 +3,7 @@ module.exports = {
     res.render('login');
   },
   auth(req,res){
-    res.render('login');
+    console.log(req.body);
+    //res.render('login');
   }
 };

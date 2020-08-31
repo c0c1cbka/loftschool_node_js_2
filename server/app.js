@@ -12,7 +12,9 @@ app.set('view engine','pug');
 
 app.use(express.static(path.join(__dirname,config.public_path)));
 
-app.use('/',require('./routes'));
+app.use('/',require('./routes/index'));
+app.use('/login',require('./routes/login'));
+app.use('/admin',require('./routes/admin'));
 
 app.listen(PORT,()=>{
   // eslint-disable-next-line no-console
