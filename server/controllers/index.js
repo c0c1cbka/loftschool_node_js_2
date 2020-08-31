@@ -1,21 +1,25 @@
 const formidable = require('formidable');
+const model = require('../models');
+const db = require('../models');
+
+let form = new formidable.IncomingForm();
 
 module.exports = {
   getIndex(req,res){
-    res.render('index');
+    res.render('index',{
+      skills: db.get('skills').value(),
+      products: db.get('products').value()
+    });
   },
-  postForm(req,res,next){
-    let form = new formidable.IncomingForm();
-    
+
+  postForm(req,res,next){    
     form.parse(req, (err, fields)=>{
       if(err){
         return next(err);
       }
-      console.log(fields);
       if(!fields.name || !fields.email || !fields.message){
         res.redirect('?msg=форма не заполнена полностью');     
       }
-      console.log(`${fields.name} || ${fields.email} || ${fields.messange}`);
       res.redirect('?msg=Форма успешно загруженна');         
     });
   }
