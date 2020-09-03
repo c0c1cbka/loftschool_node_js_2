@@ -1,24 +1,36 @@
 const formidable = require('formidable');
+const db = require('../models');
 
 let form = new formidable.IncomingForm();
 
 module.exports = {
   getLogin(req, res) {
-    res.render('login');
+    if(req.session.isAdmin){
+      res.redirect('/admin');
+    }else{
+      res.render('login');
+    }    
   },
 
-  auth(req,res){    
+  auth(req,res,next){    
     form.parse(req, (err, fields)=>{
       if(err){
         return next(err);
       }
+      let tmp = 0;
+      let users = db.get('users').value();
+      
+      users.forEach(el => {
+        if(fields.email === el.mail && fields.password === el.password){
+          req.session.isAdmin = true;
+          res.redirect('/admin');
+          tmp = 1;
+        }  
+      });
 
-      if(fields.email === 'admin@mail.ru' && fields.password === '123'){
-        /*TODO реализовать сохранение сессии через куки*/
-        res.redirect('/admin');
-      }else{
-        res.redirect('/login?msg=не верный логин или пароль');         
-      }      
+      if(tmp === 0){
+        res.redirect('/login?msg=не верный логин или пароль');             
+      }
     });
   }
 };

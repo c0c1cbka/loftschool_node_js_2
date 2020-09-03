@@ -6,7 +6,8 @@
   "scripts": {
     "start": "set NODE_ENV=development&& gulp",
     "build": "set NODE_ENV=production&& gulp build",
-    "server": "node ./server/app.js"
+    "server": "node ./server/app.js",
+    "demon_server": "nodemon ./server/app.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -43,6 +44,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "formidable": "^1.2.2",
     "jquery": "^3.3.1",
     "lowdb": "^1.0.0",

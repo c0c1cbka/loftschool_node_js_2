@@ -1,5 +1,4 @@
 const formidable = require('formidable');
-const model = require('../models');
 const db = require('../models');
 
 let form = new formidable.IncomingForm();

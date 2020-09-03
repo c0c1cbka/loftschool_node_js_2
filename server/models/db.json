@@ -1,4 +1,10 @@
 {
+  "users" : [
+    {
+      "mail" :"admin@mail.ru",
+      "password" :"123"
+    }
+  ],
   "products": [
     {
       "src": "./assets/img/products/Work1.jpg",
@@ -49,6 +55,11 @@
       "src": "./assets/img/products/Work9.jpg",
       "name": "Вино вдохновение",
       "price": 610
+    },
+    {
+      "src": "\\assets\\img\\products\\IMG_20200503_164839.jpg",
+      "name": "2",
+      "price": 3
     }
   ],
   "skills": [

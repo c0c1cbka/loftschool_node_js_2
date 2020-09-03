@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const app = express();
 
@@ -12,6 +12,18 @@ app.set('views',path.join(__dirname,config.template_path));
 app.set('view engine','pug');
 
 app.use(express.static(path.join(__dirname,config.public_path)));
+
+app.use(session({
+  secret : 'homework',
+  key: 'sessionkey',
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 60*1000
+  },
+  saveUninitialized: false,
+  resave: false
+}));
 
 app.use('/',require('./routes/index'));
 app.use('/login',require('./routes/login'));
