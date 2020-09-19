@@ -5,9 +5,10 @@ let form = new formidable.IncomingForm();
 
 module.exports = {
   getIndex(req,res){
-    res.render('index',{
+    /*return */res.render('index',{
       skills: db.get('skills').value(),
-      products: db.get('products').value()
+      products: db.get('products').value(),
+      msgemail: req.flash('email')[0]
     });
   },
 
@@ -17,9 +18,11 @@ module.exports = {
         return next(err);
       }
       if(!fields.name || !fields.email || !fields.message){
-        res.redirect('?msg=форма не заполнена полностью');     
+        req.flash('email','Форма не заполнена полностью');
+        /*return */res.redirect('/#status');
       }
-      res.redirect('?msg=Форма успешно загруженна');         
+      req.flash('email','Форма успешно загруженна');
+      /*return */res.redirect('/#status');      
     });
   }
 };

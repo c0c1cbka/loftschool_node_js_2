@@ -8,7 +8,9 @@ module.exports = {
     if(req.session.isAdmin){
       res.redirect('/admin');
     }else{
-      res.render('login');
+      res.render('login',{
+        msglogin: req.flash('login')[0]
+      });
     }    
   },
 
@@ -29,7 +31,8 @@ module.exports = {
       });
 
       if(tmp === 0){
-        res.redirect('/login?msg=не верный логин или пароль');             
+        req.flash('login','не верный логин или пароль');
+        res.redirect('/login/#status');             
       }
     });
   }

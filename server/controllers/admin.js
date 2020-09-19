@@ -14,7 +14,10 @@ module.exports = {
   },
 
   getAdmin(req, res) {
-    res.render('admin');
+    res.render('admin',{
+      msgskill: req.flash('skill')[0],
+      msgfile: req.flash('file')[0]
+    });
   },
 
   postUpload(req, res, next) {
@@ -28,13 +31,13 @@ module.exports = {
 
       if (files.photo.name === '' || files.photo.size === 0) {
         fs.unlinkSync(files.photo.path);
-        res.redirect('/admin?msg=картинка не загруженна');
-        return;
+        req.form('file','картинка не загруженна');
+        return res.redirect('/admin/#status_file');
       }
       if (fields.name === '' || fields.price === '') {
         fs.unlinkSync(files.photo.path);
-        res.redirect('/admin?msg=форма не заполнена полностью');
-        return;
+        req.form('file','форма не заполнена полностью');
+        return res.redirect('/admin/#status_file');
       }
 
       let fileName = path.join(upload, files.photo.name);
@@ -42,8 +45,8 @@ module.exports = {
       fs.rename(files.photo.path, fileName, (err) => {
         if (err) {
           fs.unlinkSync(files.photo.path);
-          res.redirect('/admin?msg=файл загружен с ошибкой');
-          return;
+          req.form('file','файл загружен с ошибкой');
+          return res.redirect('/admin/#status_file');
         }
         let fileArrPath = path.join('/assets/img/products/', files.photo.name);
 
@@ -55,7 +58,8 @@ module.exports = {
         });
         db.get('products',tmpArr).write();
 
-        res.redirect('/admin?msg=Форма успешно загруженна');
+        req.form('file','Форма успешно загруженна');
+        res.redirect('/admin/#status_file');
       });
 
     });
@@ -69,7 +73,8 @@ module.exports = {
         return next(err);
       }
       if (!fields.age || !fields.concerts || !fields.cities || !fields.years) {
-        res.redirect('/admin?msg=форма не заполнена полностью');
+        req.form('skill','форма не заполнена полностью');
+        return res.redirect('/admin/#status_skill');
       }
 
       db.set('skills[0].number', Number(fields.age)).write();
@@ -77,7 +82,8 @@ module.exports = {
       db.set('skills[2].number', Number(fields.cities)).write();
       db.set('skills[3].number', Number(fields.years)).write();
 
-      res.redirect('/admin?msg=Форма успешно загруженна');
+      req.form('skill','Форма успешно загруженна');
+      res.redirect('/admin/#status_skill');
     });
   }
 };

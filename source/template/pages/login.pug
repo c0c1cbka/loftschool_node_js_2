@@ -18,7 +18,7 @@ block content
 
       form(action="/login" method="POST").form-login
         if (msglogin)
-          .status= msglogin
+          .status#status= msglogin
         .form-login__line
           label.form-login__label(for="") Привет,
           input.form-login__input(type="email" name="email" placeholder="E-MAIL")

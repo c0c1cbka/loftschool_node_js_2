@@ -1,8 +1,8 @@
 {
-  "users" : [
+  "users": [
     {
-      "mail" :"admin@mail.ru",
-      "password" :"123"
+      "mail": "admin@mail.ru",
+      "password": "123"
     }
   ],
   "products": [
@@ -64,19 +64,19 @@
   ],
   "skills": [
     {
-      "number": 2,
+      "number": 1,
       "text": "Возраст начала занятий на скрипке"
     },
     {
-      "number": 3,
+      "number": 2,
       "text": "Концертов отыграл"
     },
     {
-      "number": 4,
+      "number": 3,
       "text": "Максимальное число городов в туре"
     },
     {
-      "number": 5,
+      "number": 4,
       "text": "Лет на сцене в качестве скрипача"
     }
   ]

@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -24,6 +26,12 @@ app.use(session({
   saveUninitialized: false,
   resave: false
 }));
+
+app.use(cookieParser());
+// app.use(session({
+//   resalve
+// }));
+app.use(flash());
 
 app.use('/',require('./routes/index'));
 app.use('/login',require('./routes/login'));
