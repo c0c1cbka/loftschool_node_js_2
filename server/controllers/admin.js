@@ -31,12 +31,12 @@ module.exports = {
 
       if (files.photo.name === '' || files.photo.size === 0) {
         fs.unlinkSync(files.photo.path);
-        req.form('file','картинка не загруженна');
+        req.flash('file','картинка не загруженна');
         return res.redirect('/admin/#status_file');
       }
       if (fields.name === '' || fields.price === '') {
         fs.unlinkSync(files.photo.path);
-        req.form('file','форма не заполнена полностью');
+        req.flash('file','форма не заполнена полностью');
         return res.redirect('/admin/#status_file');
       }
 
@@ -45,7 +45,7 @@ module.exports = {
       fs.rename(files.photo.path, fileName, (err) => {
         if (err) {
           fs.unlinkSync(files.photo.path);
-          req.form('file','файл загружен с ошибкой');
+          req.flash('file','файл загружен с ошибкой');
           return res.redirect('/admin/#status_file');
         }
         let fileArrPath = path.join('/assets/img/products/', files.photo.name);
@@ -58,7 +58,7 @@ module.exports = {
         });
         db.get('products',tmpArr).write();
 
-        req.form('file','Форма успешно загруженна');
+        req.flash('file','Форма успешно загруженна');
         res.redirect('/admin/#status_file');
       });
 
@@ -73,7 +73,7 @@ module.exports = {
         return next(err);
       }
       if (!fields.age || !fields.concerts || !fields.cities || !fields.years) {
-        req.form('skill','форма не заполнена полностью');
+        req.flash('skill','форма не заполнена полностью');
         return res.redirect('/admin/#status_skill');
       }
 
@@ -82,7 +82,7 @@ module.exports = {
       db.set('skills[2].number', Number(fields.cities)).write();
       db.set('skills[3].number', Number(fields.years)).write();
 
-      req.form('skill','Форма успешно загруженна');
+      req.flash('skill','Форма успешно загруженна');
       res.redirect('/admin/#status_skill');
     });
   }
