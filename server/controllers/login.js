@@ -1,7 +1,5 @@
-const formidable = require('formidable');
 const db = require('../models');
-
-let form = new formidable.IncomingForm();
+const helper = require('./helper');
 
 module.exports = {
   getLogin(req, res) {
@@ -14,12 +12,17 @@ module.exports = {
     }    
   },
 
-  auth(req,res,next){    
-    form.parse(req, (err, fields)=>{
-      if(err){
-        return next(err);
-      }
-      let tmp = 0;
+async auth(req,res,next){    
+    try{
+      var fields = await helper.getFormFields(req);
+    }catch(err){
+      console.error(err);
+      req.flash('login','Ошибка. обратитесь к администратору');
+      res.redirect('/login/#status');
+      return;   
+    }
+    
+    let tmp = 0;
       let users = db.get('users').value();
       
       users.forEach(el => {
@@ -34,6 +37,6 @@ module.exports = {
         req.flash('login','не верный логин или пароль');
         res.redirect('/login/#status');             
       }
-    });
+
   }
 };

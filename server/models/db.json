@@ -80,5 +80,11 @@
       "text": "Лет на сцене в качестве скрипача"
     }
   ],
-  "messenges": []
+  "messenges": [
+    {
+      "name": "ANDREI VEREMENKI",
+      "email": "c0c1cbka@gmail.com",
+      "message": "123"
+    }
+  ]
 }

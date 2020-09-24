@@ -1,7 +1,5 @@
-const formidable = require('formidable');
 const db = require('../models');
-
-let form = new formidable.IncomingForm();
+const helper = require('./helper');
 
 module.exports = {
   getIndex(req, res) {
@@ -12,23 +10,26 @@ module.exports = {
     });
   },
 
-  postForm(req, res, next) {
-    form.parse(req, (err, fields) => {
-      if (err) {
-        return next(err);
-      }
-      if (!fields.name || !fields.email || !fields.message) {
-        req.flash('email', 'Форма не заполнена полностью');
-        res.redirect('/#status');
-        return;
-      }
+  async postForm(req, res, next) {
+    try{
+      var fields = await helper.getFormFields(req);
+    }catch(err){
+      console.error(err);
+      req.flash('email', 'Ошибка обратитесь к администратору');
+      return res.redirect('/admin/#status_skill');
+    }
 
-      let tmpArr = db.get('messenges').value();
-      tmpArr.push(fields);
-      db.get('messenges', tmpArr).write();
-
-      req.flash('email', 'Форма успешно загруженна');
+    if (!fields.name || !fields.email || !fields.message) {
+      req.flash('email', 'Форма не заполнена полностью');
       res.redirect('/#status');
-    });
+      return;
+    }
+
+    let tmpArr = db.get('messenges').value();
+    tmpArr.push(fields);
+    db.get('messenges', tmpArr).write();
+
+    req.flash('email', 'Форма успешно загруженна');
+    res.redirect('/#status');
   }
 };
